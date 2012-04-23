@@ -10,6 +10,7 @@
 
 @implementation AppDelegate
 
+@synthesize facebook;
 @synthesize window = _window;
 
 - (void)dealloc
@@ -23,8 +24,81 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = [[MainController alloc] init];
     [self.window makeKeyAndVisible];
+    
+    
+    [[LocationManager singleton] start];
+    
+    DLog(@"hi");
+	self.facebook = [[Facebook alloc] initWithAppId:FACEBOOK_APP_ID andDelegate:self];
+      DLog(@"hi");
+    
+	if (![[Connector singleton] isKindOfClass:[FakeConnector class]]) {
+        
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		if ([defaults objectForKey:@"FBAccessTokenKey"] && [defaults objectForKey:@"FBExpirationDateKey"]) {
+            
+			self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+			self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
+            
+			NSString *fbId = [defaults objectForKey:@"FBId"];
+			
+			if (fbId != nil) {
+				User *user = [User getObjectWithId:fbId];
+                
+				user.identity = [defaults objectForKey:@"FBId"];
+				user.name = [defaults objectForKey:@"FBName"];
+				user.facebookId = [defaults objectForKey:@"FBId"];
+				user.thumbnailUrl = [defaults objectForKey:@"FBThumbnailUrl"];
+                
+				[CurrentUser setSingleton:user];
+			}
+            
+			[defaults synchronize];
+		}
+	}
+    
+    
     return YES;
+}
+
+
+// Pre 4.2 support
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+	//DLog(@"");
+    return [self.facebook handleOpenURL:url]; 
+}
+
+// For 4.2+ support
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+	//DLog(@"");
+    return [self.facebook handleOpenURL:url]; 
+}
+
+
+- (void)fbDidLogin {
+	//DLog(@"");
+	[[Connector singleton] processFacebookLogin];
+}
+
+
+- (void) fbDidLogout {
+	//DLog(@"");
+	
+    // Remove saved authorization information if it exists
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:@"FBAccessTokenKey"]) {
+        [defaults removeObjectForKey:@"FBAccessTokenKey"];
+        [defaults removeObjectForKey:@"FBExpirationDateKey"];
+		
+		[defaults removeObjectForKey:@"FBName"];
+		[defaults removeObjectForKey:@"FBId"];
+		[defaults removeObjectForKey:@"FBThumbnailUrl"];
+		
+        [defaults synchronize];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

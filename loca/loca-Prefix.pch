@@ -2,6 +2,16 @@
 // Prefix header for all source files of the 'loca' target in the 'loca' project
 //
 
+#ifdef DEBUG
+#   define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#   define DLog(...)
+#endif
+
+// ALog always displays output regardless of the DEBUG setting
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+
 #import <Availability.h>
 
 #ifndef __IPHONE_3_0
@@ -12,3 +22,41 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#define FACEBOOK_APP_ID @"252813778151288"
+
+#import "NSURL+NSURL_ResolveString.h"
+#import "UIImageView+WebCache.h"
+
+#import "LocationManager.h"
+#import "FBConnect.h"
+#import "DSActivityView.h"
+#import "UniqueIdGenerator.h"
+#import "UIViewController+PresentingViewController.h"
+#import "UIPullToRefreshTableView.h"
+#import "RestaurantPin.h"
+
+
+#import "BaseModel.h"
+#import "User.h"
+#import "Restaurant.h"
+#import "Promotion.h"
+#import "PromotionBadge.h"
+
+
+#import "CurrentUser.h"
+#import "Guest.h"
+
+#import "Connector.h"
+#import "FakeConnector.h"
+
+#import "AppDelegate.h"
+#import "MainController.h"
+#import "HomeFrameController.h"
+#import "MenuController.h"
+#import "HomeController.h"
+
+#import "BadgeController.h"
+#import "ViewController.h"
+#import "ListController.h"
+#import "MyLocaController.h"
