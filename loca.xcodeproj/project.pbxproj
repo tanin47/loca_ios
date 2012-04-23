@@ -1,0 +1,263 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F2C8B7661544F09F009F6311 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7651544F09F009F6311 /* UIKit.framework */; };
+		F2C8B7681544F09F009F6311 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7671544F09F009F6311 /* Foundation.framework */; };
+		F2C8B76A1544F09F009F6311 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7691544F09F009F6311 /* CoreGraphics.framework */; };
+		F2C8B7701544F09F009F6311 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2C8B76E1544F09F009F6311 /* InfoPlist.strings */; };
+		F2C8B7721544F09F009F6311 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C8B7711544F09F009F6311 /* main.m */; };
+		F2C8B7761544F09F009F6311 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C8B7751544F09F009F6311 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F2C8B7611544F09F009F6311 /* loca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = loca.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C8B7651544F09F009F6311 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F2C8B7671544F09F009F6311 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F2C8B7691544F09F009F6311 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F2C8B76D1544F09F009F6311 /* loca-Info.plist */ = {isa = PBXFileReference; path = "loca-Info.plist"; sourceTree = "<group>"; };
+		F2C8B76F1544F09F009F6311 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2C8B7711544F09F009F6311 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F2C8B7731544F09F009F6311 /* loca-Prefix.pch */ = {isa = PBXFileReference; path = "loca-Prefix.pch"; sourceTree = "<group>"; };
+		F2C8B7741544F09F009F6311 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		F2C8B7751544F09F009F6311 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F2C8B75E1544F09F009F6311 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C8B7661544F09F009F6311 /* UIKit.framework in Frameworks */,
+				F2C8B7681544F09F009F6311 /* Foundation.framework in Frameworks */,
+				F2C8B76A1544F09F009F6311 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F2C8B7561544F09F009F6311 = {
+			isa = PBXGroup;
+			children = (
+				F2C8B76B1544F09F009F6311 /* loca */,
+				F2C8B7641544F09F009F6311 /* Frameworks */,
+				F2C8B7621544F09F009F6311 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F2C8B7621544F09F009F6311 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2C8B7611544F09F009F6311 /* loca.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F2C8B7641544F09F009F6311 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2C8B7651544F09F009F6311 /* UIKit.framework */,
+				F2C8B7671544F09F009F6311 /* Foundation.framework */,
+				F2C8B7691544F09F009F6311 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2C8B76B1544F09F009F6311 /* loca */ = {
+			isa = PBXGroup;
+			children = (
+				F2C8B7741544F09F009F6311 /* AppDelegate.h */,
+				F2C8B7751544F09F009F6311 /* AppDelegate.m */,
+				F2C8B76C1544F09F009F6311 /* Supporting Files */,
+			);
+			path = loca;
+			sourceTree = "<group>";
+		};
+		F2C8B76C1544F09F009F6311 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F2C8B76D1544F09F009F6311 /* loca-Info.plist */,
+				F2C8B76E1544F09F009F6311 /* InfoPlist.strings */,
+				F2C8B7711544F09F009F6311 /* main.m */,
+				F2C8B7731544F09F009F6311 /* loca-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F2C8B7601544F09F009F6311 /* loca */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2C8B7791544F09F009F6311 /* Build configuration list for PBXNativeTarget "loca" */;
+			buildPhases = (
+				F2C8B75D1544F09F009F6311 /* Sources */,
+				F2C8B75E1544F09F009F6311 /* Frameworks */,
+				F2C8B75F1544F09F009F6311 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = loca;
+			productName = loca;
+			productReference = F2C8B7611544F09F009F6311 /* loca.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F2C8B7581544F09F009F6311 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = F2C8B75B1544F09F009F6311 /* Build configuration list for PBXProject "loca" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F2C8B7561544F09F009F6311;
+			productRefGroup = F2C8B7621544F09F009F6311 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2C8B7601544F09F009F6311 /* loca */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F2C8B75F1544F09F009F6311 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C8B7701544F09F009F6311 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F2C8B75D1544F09F009F6311 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C8B7721544F09F009F6311 /* main.m in Sources */,
+				F2C8B7761544F09F009F6311 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F2C8B76E1544F09F009F6311 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2C8B76F1544F09F009F6311 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F2C8B7771544F09F009F6311 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F2C8B7781544F09F009F6311 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F2C8B77A1544F09F009F6311 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "loca/loca-Prefix.pch";
+				INFOPLIST_FILE = "loca/loca-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F2C8B77B1544F09F009F6311 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "loca/loca-Prefix.pch";
+				INFOPLIST_FILE = "loca/loca-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F2C8B75B1544F09F009F6311 /* Build configuration list for PBXProject "loca" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2C8B7771544F09F009F6311 /* Debug */,
+				F2C8B7781544F09F009F6311 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2C8B7791544F09F009F6311 /* Build configuration list for PBXNativeTarget "loca" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2C8B77A1544F09F009F6311 /* Debug */,
+				F2C8B77B1544F09F009F6311 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F2C8B7581544F09F009F6311 /* Project object */;
+}
