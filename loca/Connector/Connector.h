@@ -11,6 +11,9 @@
 @interface Connector : NSObject<FBRequestDelegate> {
     void (^loginCallback)(void);
     void (^loginFailCallback)(void);
+    
+    void (^facebookRequestDidLoad)(FBRequest *request, id result);
+    void (^facebookRequestDidFail)(FBRequest *request, NSError *error);
 }
 
 + (Connector *) singleton;
@@ -22,6 +25,7 @@
 - (void) logoutOnDone:(void(^)()) callback
             AndOnFail:(void(^)()) failCallback;
 
+- (void) releaseFacebookCallbackBlocks;
 - (void) releaseLoginCallbackBlocks;
 
 - (void) authorizeUserWithFacebookId:(NSString *) facebookId
@@ -40,5 +44,18 @@
 
 - (void) getPromotionBadgeAndOnDone:(void(^)(NSMutableArray *badges)) callback
                           AndOnFail:(void(^)()) failCallback;
+
+- (void) getFriendsAndOnDone:(void(^)(NSMutableArray *friends)) callback
+                   AndOnFail:(void(^)()) failCallback;
+
+- (void) transferBadge: (PromotionBadge *) badge
+          toFacebookId: (NSString *) facebookId
+             AndOnDone: (void(^)()) callback
+             AndOnFail: (void(^)()) failCallback;
+
+- (void) sharePromotion: (Promotion *) promotion
+              AndOnDone: (void(^)()) callback
+              AndOnFail: (void(^)()) failCallback;
+
 
 @end

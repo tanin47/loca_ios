@@ -42,6 +42,7 @@
 #import "Restaurant.h"
 #import "Promotion.h"
 #import "PromotionBadge.h"
+#import "Friend.h"
 
 
 #import "CurrentUser.h"
@@ -60,3 +61,8 @@
 #import "ViewController.h"
 #import "ListController.h"
 #import "MyLocaController.h"
+
+#import "TransferFriendController.h"
+#import "TransferMessageController.h"
+
+#import "ShareMessageController.h"

@@ -109,12 +109,91 @@
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    @"SELECT uid, name, pic_square FROM user WHERE uid=me()", @"query",
                                    nil];
+    
+    
+    facebookRequestDidLoad = [[^(FBRequest *request, id result) {
+        //DLog(@"");
+        if (![result isKindOfClass:[NSArray class]] || ![[result objectAtIndex:0] objectForKey:@"name"]) {
+            [self request:request didFailWithError:nil];
+            return;
+        }
+        
+        result = [result objectAtIndex:0];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
+        
+        
+        [self authorizeUserWithFacebookId:[result objectForKey:@"uid"] 
+                          AndFacebookName:[result objectForKey:@"name"] 
+                          AndThumbnailUrl:[result objectForKey:@"pic_square"] 
+                           AndAccessToken:accessToken
+                                AndOnDone:^(User *user) {
+                                    
+                                    //DLog(@"");
+                                    [CurrentUser setSingleton:user];
+                                    
+                                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                    [defaults setObject:[CurrentUser singleton].name forKey:@"FBName"];
+                                    [defaults setObject:[CurrentUser singleton].facebookId forKey:@"FBId"];
+                                    [defaults setObject:[CurrentUser singleton].thumbnailUrl forKey:@"FBThumbnailUrl"];
+                                    [defaults synchronize];
+                                    
+                                    
+                                    dispatch_async( dispatch_get_main_queue(), ^{
+                                        loginCallback();
+                                        [self releaseLoginCallbackBlocks];
+                                    });
+                                    
+                                } 
+                                AndOnFail:^{
+                                    //DLog(@"");
+                                    dispatch_async( dispatch_get_main_queue(), ^{
+                                        loginFailCallback();
+                                        [self releaseLoginCallbackBlocks];
+                                    });
+                                }]; 
+    } copy] retain];
+    
+    facebookRequestDidFail = [[^(FBRequest *request, NSError *error) {
+        dispatch_async( dispatch_get_main_queue(), ^{
+            loginFailCallback();
+            [self releaseLoginCallbackBlocks];
+        });
+    } copy] retain];
 	
     [delegate.facebook requestWithMethodName:@"fql.query"
 								   andParams:params
 							   andHttpMethod:@"POST"
 								 andDelegate:self];
 }
+
+- (void)request:(FBRequest *)request didLoad:(id)result {
+	facebookRequestDidLoad(request, result);
+    [self releaseFacebookCallbackBlocks];
+}
+
+
+
+- (void)request:(FBRequest *)request didFailWithError:(NSError *)error
+{
+	facebookRequestDidFail(request, error);
+    [self releaseFacebookCallbackBlocks];
+}
+
+
+- (void) releaseFacebookCallbackBlocks
+{
+    [facebookRequestDidLoad release]; 
+    [facebookRequestDidFail release];
+}
+
+- (void) releaseLoginCallbackBlocks
+{
+    [loginCallback release];
+    [loginFailCallback release];
+}
+
 
 
 
@@ -129,7 +208,7 @@
 	NSArray *permissions = [[NSArray alloc] initWithObjects:
 							@"email",
                             @"publish_stream",
-                            @"user_birthday"
+                            @"user_birthday",
 							nil];
 	[delegate.facebook authorize:permissions];
 	[permissions release];
@@ -186,67 +265,6 @@
 
 
 
-- (void)request:(FBRequest *)request didLoad:(id)result {
-	//DLog(@"");
-    if (![result isKindOfClass:[NSArray class]] || ![[result objectAtIndex:0] objectForKey:@"name"]) {
-        [self request:request didFailWithError:nil];
-		return;
-    }
-	
-    result = [result objectAtIndex:0];
-	
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
-	
-	
-	[self authorizeUserWithFacebookId:[result objectForKey:@"uid"] 
-                      AndFacebookName:[result objectForKey:@"name"] 
-                      AndThumbnailUrl:[result objectForKey:@"pic_square"] 
-                       AndAccessToken:accessToken
-                            AndOnDone:^(User *user) {
-												 
-                                         //DLog(@"");
-                                         [CurrentUser setSingleton:user];
-                                         
-                                         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                                         [defaults setObject:[CurrentUser singleton].name forKey:@"FBName"];
-                                         [defaults setObject:[CurrentUser singleton].facebookId forKey:@"FBId"];
-                                         [defaults setObject:[CurrentUser singleton].thumbnailUrl forKey:@"FBThumbnailUrl"];
-                                         [defaults synchronize];
-                                         
-                                         
-                                        dispatch_async( dispatch_get_main_queue(), ^{
-                                                loginCallback();
-                                        [self releaseLoginCallbackBlocks];
-                                        });
-                                
-                                     } 
-                                     AndOnFail:^{
-                                         //DLog(@"");
-                                         dispatch_async( dispatch_get_main_queue(), ^{
-                                             loginFailCallback();
-                                             [self releaseLoginCallbackBlocks];
-                                         });
-                                }]; 
-}
-
-
-
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error
-{
-	//DLog(@"");
-    dispatch_async( dispatch_get_main_queue(), ^{
-        loginFailCallback();
-        [self releaseLoginCallbackBlocks];
-    });
-}
-
-
-- (void) releaseLoginCallbackBlocks
-{
-    [loginCallback release];
-    [loginFailCallback release];
-}
 
 
 - (void) getNearPromotionAndOnDone:(void(^)(NSMutableArray *)) callback
@@ -309,5 +327,79 @@
     }); 
 }
 
+
+- (void) getFriendsAndOnDone:(void(^)(NSMutableArray *friends)) callback
+                   AndOnFail:(void(^)()) failCallback
+{
+    DLog(@"");
+    facebookRequestDidLoad = [[^(FBRequest *request, id result) {
+        DLog(@"%@", result);
+        NSDictionary *response = (NSDictionary *) result;
+        NSArray *data = [response objectForKey:@"data"];
+        
+        NSMutableArray *friends = [NSMutableArray arrayWithCapacity:[data count]];
+        
+        for (NSDictionary *dict in data) {
+            Friend *f = [[Friend alloc] init];
+            f.name = [dict objectForKey:@"name"];
+            f.facebookId = [NSString stringWithFormat:@"%@", [dict objectForKey:@"id"]];
+            [friends addObject:f];
+            [f release];
+        }
+        
+        callback(friends);
+        
+    } copy] retain];
+    
+    
+    facebookRequestDidFail = [[^(FBRequest *request, NSError *error) {
+        DLog(@"");
+        dispatch_async( dispatch_get_main_queue(), ^{
+            failCallback();
+        });
+    } copy] retain];
+    
+    
+    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //[delegate.facebook requestWithGraphPath:@"search?q=mark&type=user" andDelegate:self];
+    [delegate.facebook requestWithGraphPath:@"me/friends" andDelegate:self];
+}
+
+
+- (void) transferBadge: (PromotionBadge *) badge
+          toFacebookId: (NSString *) facebookId
+             AndOnDone: (void(^)()) callback
+             AndOnFail: (void(^)()) failCallback
+{
+    DLog(@"");
+	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		
+        DLog(@"");
+		[NSThread sleepForTimeInterval:1.5];
+        
+        [self.badges removeObject:badge];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            callback();
+        });
+    }); 
+}
+
+
+- (void) sharePromotion: (Promotion *) promotion
+              AndOnDone: (void(^)()) callback
+              AndOnFail: (void(^)()) failCallback
+{
+    DLog(@"");
+	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		
+        DLog(@"");
+		[NSThread sleepForTimeInterval:1.5];
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            callback();
+        });
+    }); 
+}
 
 @end

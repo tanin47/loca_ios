@@ -175,27 +175,69 @@ static ViewController *sharedInstance = nil;
 
 - (IBAction) shareClicked: (id) sender
 {
-    AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    
-    NSMutableDictionary* params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   FACEBOOK_APP_ID, @"app_id",
-                                   @"http://www.google.com",  @"link",
-                                   self.promotion.thumbnailUrl, @"picture",
-                                   self.promotion.name, @"name",
-                                   @"Loca", @"caption",
-                                   self.promotion.description, @"description",
-                                   nil];
-    
-    [delegate.facebook dialog:@"feed"
-                    andParams:params
-                  andDelegate:self];
+    if ([[CurrentUser singleton] isGuest] == YES) {
+        
+        [DSBezelActivityView newActivityViewForView:[UIApplication sharedApplication].keyWindow withLabel:@"กำลังเข้าระบบ..."];
+        
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [NSThread sleepForTimeInterval:0.5];
+            
+            [[Connector singleton] loginOnDone:^{
+                [self shareClicked:nil];
+                [DSBezelActivityView removeViewAnimated:YES];
+            }  AndOnFail:^{
+                
+                [DSBezelActivityView removeViewAnimated:YES];
+                
+                UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"ล้มเหลว"
+                                                                  message:@"ไม่สามารถเข้าระบบได้"
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"ปิด"
+                                                        otherButtonTitles:nil];
+                [message show];
+                [message release];
+            }];
+        });
+        
+    } else {
+        [self.navigationController pushViewController:[ShareMessageController singleton] animated:YES];
+        
+        [ShareMessageController singleton].promotion = self.promotion;
+    }
 }
 
 
 - (IBAction) transferClicked: (id) sender
 {
-    
+    if ([[CurrentUser singleton] isGuest] == YES) {
+        
+        [DSBezelActivityView newActivityViewForView:[UIApplication sharedApplication].keyWindow withLabel:@"กำลังเข้าระบบ..."];
+        
+        dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            
+            [NSThread sleepForTimeInterval:0.5];
+            
+            [[Connector singleton] loginOnDone:^{
+                [self transferClicked:nil];
+                [DSBezelActivityView removeViewAnimated:YES];
+            }  AndOnFail:^{
+                
+                 [DSBezelActivityView removeViewAnimated:YES];
+                 
+                 UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"ล้มเหลว"
+                                                                   message:@"ไม่สามารถเข้าระบบได้"
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"ปิด"
+                                                         otherButtonTitles:nil];
+                 [message show];
+                 [message release];
+             }];
+        });
+        
+    } else {
+        [self.navigationController pushViewController:[TransferFriendController singleton] animated:YES];
+    }
 }
          
 

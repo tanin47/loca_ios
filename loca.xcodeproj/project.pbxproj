@@ -86,6 +86,13 @@
 		F2C8B8CA15454A76009F6311 /* RestaurantViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C8B8C815454A61009F6311 /* RestaurantViewController.xib */; };
 		F2C8B8CF15455524009F6311 /* TransferFriendController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C8B8CD15455458009F6311 /* TransferFriendController.m */; };
 		F2C8B8D015455524009F6311 /* TransferFriendController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2C8B8CE15455476009F6311 /* TransferFriendController.xib */; };
+		F2D31E1615455C73004863B7 /* TransferMessageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D31E1415455C73004863B7 /* TransferMessageController.m */; };
+		F2D31E1715455C73004863B7 /* TransferMessageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D31E1515455C73004863B7 /* TransferMessageController.xib */; };
+		F2D31E1B15456210004863B7 /* FriendRow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D31E1A15456210004863B7 /* FriendRow.m */; };
+		F2D31E1D15456224004863B7 /* FriendRow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D31E1C15456224004863B7 /* FriendRow.xib */; };
+		F2D31E2015456253004863B7 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D31E1F15456253004863B7 /* Friend.m */; };
+		F2D31E2415456E7A004863B7 /* ShareMessageController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D31E2215456E78004863B7 /* ShareMessageController.m */; };
+		F2D31E2515456E7A004863B7 /* ShareMessageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D31E2315456E79004863B7 /* ShareMessageController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -244,6 +251,17 @@
 		F2C8B8CC1545544F009F6311 /* TransferFriendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferFriendController.h; sourceTree = "<group>"; };
 		F2C8B8CD15455458009F6311 /* TransferFriendController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferFriendController.m; sourceTree = "<group>"; };
 		F2C8B8CE15455476009F6311 /* TransferFriendController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransferFriendController.xib; sourceTree = "<group>"; };
+		F2D31E1315455C73004863B7 /* TransferMessageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransferMessageController.h; sourceTree = "<group>"; };
+		F2D31E1415455C73004863B7 /* TransferMessageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransferMessageController.m; sourceTree = "<group>"; };
+		F2D31E1515455C73004863B7 /* TransferMessageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransferMessageController.xib; sourceTree = "<group>"; };
+		F2D31E1915456210004863B7 /* FriendRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRow.h; sourceTree = "<group>"; };
+		F2D31E1A15456210004863B7 /* FriendRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRow.m; sourceTree = "<group>"; };
+		F2D31E1C15456224004863B7 /* FriendRow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendRow.xib; sourceTree = "<group>"; };
+		F2D31E1E15456253004863B7 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Friend.h; path = Model/Friend.h; sourceTree = "<group>"; };
+		F2D31E1F15456253004863B7 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Friend.m; path = Model/Friend.m; sourceTree = "<group>"; };
+		F2D31E2115456E77004863B7 /* ShareMessageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareMessageController.h; sourceTree = "<group>"; };
+		F2D31E2215456E78004863B7 /* ShareMessageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareMessageController.m; sourceTree = "<group>"; };
+		F2D31E2315456E79004863B7 /* ShareMessageController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareMessageController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,9 +371,18 @@
 				F2C8B8C615454A03009F6311 /* RestaurantViewController.h */,
 				F2C8B8C715454A0C009F6311 /* RestaurantViewController.m */,
 				F2C8B8C815454A61009F6311 /* RestaurantViewController.xib */,
+				F2D31E1915456210004863B7 /* FriendRow.h */,
+				F2D31E1A15456210004863B7 /* FriendRow.m */,
+				F2D31E1C15456224004863B7 /* FriendRow.xib */,
 				F2C8B8CC1545544F009F6311 /* TransferFriendController.h */,
 				F2C8B8CD15455458009F6311 /* TransferFriendController.m */,
 				F2C8B8CE15455476009F6311 /* TransferFriendController.xib */,
+				F2D31E1315455C73004863B7 /* TransferMessageController.h */,
+				F2D31E1415455C73004863B7 /* TransferMessageController.m */,
+				F2D31E1515455C73004863B7 /* TransferMessageController.xib */,
+				F2D31E2115456E77004863B7 /* ShareMessageController.h */,
+				F2D31E2215456E78004863B7 /* ShareMessageController.m */,
+				F2D31E2315456E79004863B7 /* ShareMessageController.xib */,
 			);
 			path = loca;
 			sourceTree = "<group>";
@@ -519,6 +546,8 @@
 				F2C8B88815451DC7009F6311 /* BaseModel.m */,
 				F2C8B8B915453707009F6311 /* PromotionBadge.h */,
 				F2C8B8BA15453708009F6311 /* PromotionBadge.m */,
+				F2D31E1E15456253004863B7 /* Friend.h */,
+				F2D31E1F15456253004863B7 /* Friend.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -655,6 +684,9 @@
 				F2C8B8C515454056009F6311 /* BadgeCell.xib in Resources */,
 				F2C8B8CA15454A76009F6311 /* RestaurantViewController.xib in Resources */,
 				F2C8B8D015455524009F6311 /* TransferFriendController.xib in Resources */,
+				F2D31E1715455C73004863B7 /* TransferMessageController.xib in Resources */,
+				F2D31E1D15456224004863B7 /* FriendRow.xib in Resources */,
+				F2D31E2515456E7A004863B7 /* ShareMessageController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,6 +749,10 @@
 				F2C8B8C315454027009F6311 /* BadgeCell.m in Sources */,
 				F2C8B8C915454A76009F6311 /* RestaurantViewController.m in Sources */,
 				F2C8B8CF15455524009F6311 /* TransferFriendController.m in Sources */,
+				F2D31E1615455C73004863B7 /* TransferMessageController.m in Sources */,
+				F2D31E1B15456210004863B7 /* FriendRow.m in Sources */,
+				F2D31E2015456253004863B7 /* Friend.m in Sources */,
+				F2D31E2415456E7A004863B7 /* ShareMessageController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -830,6 +866,7 @@
 				F2C8B77B1544F09F009F6311 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

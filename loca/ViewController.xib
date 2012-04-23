@@ -167,7 +167,6 @@
 						<string key="NSFrame">{{12, 252}, {296, 193}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -380,12 +379,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">shareClicked:</string>
+						<string key="label">transferClicked:</string>
 						<reference key="source" ref="976679116"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">25</int>
+					<int key="connectionID">26</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -497,7 +496,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">25</int>
+			<int key="maxID">26</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -509,6 +508,7 @@
 						<string key="collectClicked:">id</string>
 						<string key="shareClicked:">id</string>
 						<string key="showBadgeClicked:">id</string>
+						<string key="transferClicked:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="backClicked:">
@@ -525,6 +525,10 @@
 						</object>
 						<object class="IBActionInfo" key="showBadgeClicked:">
 							<string key="name">showBadgeClicked:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="transferClicked:">
+							<string key="name">transferClicked:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
