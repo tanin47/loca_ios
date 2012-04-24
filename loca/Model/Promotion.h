@@ -21,12 +21,13 @@
 @property (nonatomic, retain) NSString *thumbnailUrl;
 
 @property (nonatomic) int total;
-@property (nonatomic) int collect;
+@property (nonatomic) int collected_count;
 
 @property (nonatomic, retain) PromotionBadge *badge;
 
 
-
++ (Promotion *) getObjectWithId: (NSString *) identity
+                 AndSetWithJson: (NSMutableDictionary *) json;
 + (Promotion *) newElement;
 
 

@@ -42,6 +42,7 @@ static ViewController *sharedInstance = nil;
 
 @synthesize collectButton;
 @synthesize showBadgeButton;
+@synthesize transferButton;
 
 
 - (void) setPromotion: (Promotion *) newPro
@@ -255,9 +256,11 @@ static ViewController *sharedInstance = nil;
     if ([[CurrentUser singleton] isGuest] == YES || self.promotion.badge == nil) {
         self.collectButton.hidden = NO;
         self.showBadgeButton.hidden = YES;
+        self.transferButton.hidden = YES;
     } else {
         self.collectButton.hidden = YES;
         self.showBadgeButton.hidden = NO;
+        self.transferButton.hidden = NO;
     }
     
     

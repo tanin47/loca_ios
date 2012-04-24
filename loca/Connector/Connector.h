@@ -49,11 +49,13 @@
                    AndOnFail:(void(^)()) failCallback;
 
 - (void) transferBadge: (PromotionBadge *) badge
-          toFacebookId: (NSString *) facebookId
+          ToFacebookId: (NSString *) facebookId
+           WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
              AndOnFail: (void(^)()) failCallback;
 
 - (void) sharePromotion: (Promotion *) promotion
+            WithMessage: (NSString *) message
               AndOnDone: (void(^)()) callback
               AndOnFail: (void(^)()) failCallback;
 

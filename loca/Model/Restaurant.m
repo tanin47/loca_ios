@@ -22,9 +22,39 @@ static NSMutableDictionary *hash = nil;
 @synthesize longitude;
 
 
++ (Restaurant *) getObjectWithId: (NSString *) identity
+                 AndSetWithJson: (NSMutableDictionary *) json
+{
+    return [self getObjectWithId:identity 
+                  AndSetWithJson:json
+                     AndWithHash: (NSMutableDictionary *) hash];
+}
+
+
++ (void) updateAllWithJsonArray: (NSMutableArray *) array
+{
+	//DLog(@"");
+	for (NSMutableDictionary *row in array) {
+		[self getObjectWithId:[row objectForKey:@"id"]
+               AndSetWithJson:row
+                  AndWithHash:hash];
+	}
+}
+
+
 + (Restaurant *) newElement
 {
     return [self newElementWithHash:hash];
+}
+
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json
+{
+	//DLog(@"");
+	self.identity = [json objectForKey:@"id"];
+	self.name = [json objectForKey:@"name"];
+	self.description = [json objectForKey:@"description"];
+	self.latitude = [(NSNumber *)[json objectForKey:@"latitude"] doubleValue];
+	self.longitude = [(NSNumber *)[json objectForKey:@"longitude"] doubleValue];
 }
 
 @end

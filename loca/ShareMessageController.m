@@ -91,6 +91,7 @@ static ShareMessageController *sharedInstance = nil;
     [DSBezelActivityView newActivityViewForView:[UIApplication sharedApplication].keyWindow withLabel:@"กำลังส่ง..."];
     
     [[Connector singleton] sharePromotion:self.promotion
+                              WithMessage:self.textbox.text
                                 AndOnDone: ^{
                                    [DSBezelActivityView removeViewAnimated:YES];
                                    [self.navigationController popToViewController:[ViewController singleton] animated:YES];

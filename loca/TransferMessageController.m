@@ -88,7 +88,8 @@ static TransferMessageController *sharedInstance = nil;
     [DSBezelActivityView newActivityViewForView:[UIApplication sharedApplication].keyWindow withLabel:@"กำลังส่ง..."];
     
     [[Connector singleton] transferBadge:[ViewController singleton].promotion.badge
-                            toFacebookId: fbFriend.facebookId
+                            ToFacebookId: fbFriend.facebookId
+                             WithMessage:self.textbox.text
                                AndOnDone: ^{
                                    [DSBezelActivityView removeViewAnimated:YES];
                                    [self.navigationController popToViewController:[ViewController singleton] animated:YES];

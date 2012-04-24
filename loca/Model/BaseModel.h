@@ -22,7 +22,7 @@
 + (BaseModel *) getObjectWithId: (NSString *) identity
                     AndWithHash: (NSMutableDictionary *) hash;
 + (BaseModel *) getObjectWithId: (NSString *) identity
-                 AndSetWithJson:(NSMutableDictionary *) json
+                 AndSetWithJson: (NSMutableDictionary *) json
                     AndWithHash: (NSMutableDictionary *) hash;
 + (void) updateAllWithJsonArray: (NSMutableArray *) array
                     AndWithHash: (NSMutableDictionary *) hash;

@@ -43,7 +43,7 @@
 
 + (BaseModel *)getObjectWithId: (NSString *) identity
                 AndSetWithJson:(NSMutableDictionary *) json
-                   AndWithHash: (NSMutableDictionary *) hash;
+                   AndWithHash: (NSMutableDictionary *) hash
 {
 	//DLog(@"");
 	BaseModel *m = [self getObjectWithId:identity];
@@ -52,12 +52,13 @@
 }
 
 + (void) updateAllWithJsonArray: (NSMutableArray *) array
-                    AndWithHash: (NSMutableDictionary *) hash;
+                    AndWithHash: (NSMutableDictionary *) hash
 {
 	//DLog(@"");
 	for (NSMutableDictionary *row in array) {
-		[BaseModel getObjectWithId:[row objectForKey:@"id"]
-                    AndSetWithJson:row];
+		[self getObjectWithId:[row objectForKey:@"id"]
+               AndSetWithJson:row
+                  AndWithHash:hash];
 	}
 	
 }

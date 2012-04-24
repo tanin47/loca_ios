@@ -224,7 +224,8 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
 	NSArray *permissions = [[NSArray alloc] initWithObjects:
-							@"email",
+							@"offline_access",
+                            @"email",
                             @"publish_stream",
                             @"user_birthday",
 							nil];
@@ -271,6 +272,7 @@
         [request setValidatesSecureCertificate:NO];
 		[request setPostValue:facebookId forKey:@"facebook_id"];
 		[request setPostValue:facebookName forKey:@"name"];
+        [request setPostValue:accessToken forKey:@"access_token"];
 		
 		[self attachSignature:request];
 		
@@ -327,21 +329,68 @@
                          AndOnFail:(void(^)()) failCallback
 {
     DLog(@"");
-	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		
-        DLog(@"");
-		[NSThread sleepForTimeInterval:1.5];
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        for (Promotion *pro in self.promotions) {
-            pro.restaurant.latitude = [LocationManager singleton].currentLocation.coordinate.latitude + ((double) (arc4random() % 100) / 70000.0);
-            pro.restaurant.longitude = [LocationManager singleton].currentLocation.coordinate.longitude + ((double) (arc4random() % 100) / 70000.0);
-        }
+        NSString *path = [NSString stringWithFormat:@"/promotion?lat=%f&lng=%f&member_id=%@", 
+                         [LocationManager singleton].currentLocation.coordinate.latitude,
+                         [LocationManager singleton].currentLocation.coordinate.longitude,
+                         [CurrentUser singleton].identity];
         
-        dispatch_async( dispatch_get_main_queue(), ^{
-            callback(self.promotions);
-        });
+        ASIHTTPRequest  *request = [ASIHTTPRequest  requestWithURL:[self createUrlToPath:path]];
+        [request setValidatesSecureCertificate:NO];
+        [request setRequestMethod:@"GET"];
+        
+        [request setCompletionBlock:^{
+            //DLog(@"");
+            SBJsonParser *parser;
+            
+            @try {
+                
+                NSString *content = [request responseString];
+                NSLog(@"response: %@", content);
+                
+                parser = [[SBJsonParser alloc] init];
+                NSMutableDictionary *json = [parser objectWithString:content];
+                
+                NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
+                if (![ok boolValue]) {
+                    failCallback();
+                    return;
+                }
+                
+                [Restaurant updateAllWithJsonArray:[json objectForKey:@"restaurants"]];
+                
+                NSMutableArray *promotionList = (NSMutableArray *)[json objectForKey:@"promotions"];
+                NSMutableArray *returnPromotions = [NSMutableArray arrayWithCapacity:[promotionList count]];
+                
+                for (NSMutableDictionary *row in promotionList) {
+                    Promotion *promotion = [Promotion getObjectWithId:[row objectForKey:@"id"]
+                                                       AndSetWithJson:row];
+                    [returnPromotions addObject:promotion];
+                }
+                
+                [PromotionBadge updateAllWithJsonArray:[json objectForKey:@"badges"]];
+                
+                callback(returnPromotions);
+            } @catch (id theException) {
+                failCallback();
+                NSLog(@"NearPromotion's Error: %@", theException);
+            } @finally {
+                [parser release];
+            }
+            
+        }];
+        
+        [request setFailedBlock:^{
+            //DLog(@"");
+            failCallback();
+        }];
+        
+        [request startAsynchronous];
+        
     });
 }
+
 
 
 - (void) collectPromotion: (Promotion *) promotion
@@ -351,19 +400,62 @@
     DLog(@"");
 	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		
-        DLog(@"");
-		[NSThread sleepForTimeInterval:1.5];
+        NSString *path = [NSString stringWithFormat:@"/promotion/%@/collect", promotion.identity];
         
-        PromotionBadge *badge = [PromotionBadge newElement];
-        badge.promotion = promotion;
-        promotion.badge = badge;
-        badge.badgeNumber = [NSString stringWithFormat:@"%04d-%04d-%04d", (arc4random() % 1000), (arc4random() % 1000), [self.badges count]];
-        
-        [self.badges insertObject:badge atIndex:0];
-        
-        dispatch_async( dispatch_get_main_queue(), ^{
-            callback();
-        });
+		ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[self createUrlToPath:path]];
+        [request setValidatesSecureCertificate:NO];
+		[request setPostValue:[CurrentUser singleton].identity forKey:@"member_id"];
+		
+		[self attachSignature:request];
+		
+		[request setCompletionBlock:^{
+			//DLog(@"");
+			SBJsonParser *parser;
+			@try {
+				
+				NSString *content = [request responseString];
+				NSLog(@"response: %@", content);
+				
+				parser = [[SBJsonParser alloc] init];
+				
+				NSMutableDictionary *json = [parser objectWithString:content];
+				
+				NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
+                
+                if (![ok boolValue]) {
+                    failCallback();
+                    return;
+                }
+				
+                NSMutableDictionary *restaurantData = (NSMutableDictionary *)[json objectForKey:@"restaurant"];
+                [Restaurant getObjectWithId: [restaurantData objectForKey:@"id"]
+                             AndSetWithJson: restaurantData];
+                
+                NSMutableDictionary *promotionData = (NSMutableDictionary *)[json objectForKey:@"promotion"];
+                [Promotion getObjectWithId: [promotionData objectForKey:@"id"]
+                            AndSetWithJson: promotionData];
+                
+				NSMutableDictionary *badgeData = (NSMutableDictionary *)[json objectForKey:@"badge"];
+                [PromotionBadge getObjectWithId: [badgeData objectForKey:@"id"]
+                                 AndSetWithJson: badgeData];
+				
+                callback();
+				
+			} @catch (id theException) {
+				failCallback();
+				NSLog(@"UserConnect's Error: %@", theException);
+			} @finally {
+				[parser release];
+			}
+			
+		}];
+		
+		[request setFailedBlock:^{
+			//DLog(@"");
+			failCallback();
+		}];
+		
+		[request startAsynchronous];
     });
 }
 
@@ -372,15 +464,63 @@
                           AndOnFail:(void(^)()) failCallback
 {
     DLog(@"");
-	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		
-        DLog(@"");
-		[NSThread sleepForTimeInterval:1.5];
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         
-        dispatch_async( dispatch_get_main_queue(), ^{
-            callback(self.badges);
-        });
-    }); 
+        NSString *path = [NSString stringWithFormat:@"/member/%@/badges",[CurrentUser singleton].identity];
+        
+        ASIHTTPRequest  *request = [ASIHTTPRequest  requestWithURL:[self createUrlToPath:path]];
+        [request setValidatesSecureCertificate:NO];
+        [request setRequestMethod:@"GET"];
+        
+        [request setCompletionBlock:^{
+            //DLog(@"");
+            SBJsonParser *parser;
+            
+            @try {
+                
+                NSString *content = [request responseString];
+                NSLog(@"response: %@", content);
+                
+                parser = [[SBJsonParser alloc] init];
+                NSMutableDictionary *json = [parser objectWithString:content];
+                
+                NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
+                if (![ok boolValue]) {
+                    failCallback();
+                    return;
+                }
+                
+                [Restaurant updateAllWithJsonArray:[json objectForKey:@"restaurants"]];
+                [Promotion updateAllWithJsonArray:[json objectForKey:@"promotions"]];
+                
+                NSMutableArray *badgeList = (NSMutableArray *)[json objectForKey:@"badges"];
+                NSMutableArray *returnBadges = [NSMutableArray arrayWithCapacity:[badgeList count]];
+                
+                for (NSMutableDictionary *row in badgeList) {
+                    Badge *badge = [PromotionBadge getObjectWithId:[row objectForKey:@"id"]
+                                                            AndSetWithJson:row];
+                    [returnBadges addObject:badge];
+                }
+                
+                callback(returnBadges);
+            } @catch (id theException) {
+                failCallback();
+                NSLog(@"GetAllBadges's Error: %@", theException);
+            } @finally {
+                [parser release];
+            }
+            
+        }];
+        
+        [request setFailedBlock:^{
+            //DLog(@"");
+            failCallback();
+        }];
+        
+        [request startAsynchronous];
+        
+    });
+
 }
 
 
@@ -423,39 +563,118 @@
 
 
 - (void) transferBadge: (PromotionBadge *) badge
-          toFacebookId: (NSString *) facebookId
+          ToFacebookId: (NSString *) facebookId
+           WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
              AndOnFail: (void(^)()) failCallback
 {
-    DLog(@"");
-	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		//DLog(@"");
+        
+        NSString *url = [NSString stringWithFormat:@"/promotion/%@/transfer", promotion.identity];
+        
+		ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[self createUrlToPath:url]];
+        [request setValidatesSecureCertificate:NO];
+		[request setPostValue:[CurrentUser singleton].identity forKey:@"member_id"];
+        [request setPostValue:message forKey:@"message"];
+        [request setPostValue:facebookId forKey:@"target_facebook_id"];
 		
-        DLog(@"");
-		[NSThread sleepForTimeInterval:1.5];
-        
-        [self.badges removeObject:badge];
-        
-        dispatch_async( dispatch_get_main_queue(), ^{
-            callback();
-        });
-    }); 
+		[self attachSignature:request];
+		
+		[request setCompletionBlock:^{
+			//DLog(@"");
+			SBJsonParser *parser;
+			@try {
+				
+				NSString *content = [request responseString];
+				NSLog(@"response: %@", content);
+				
+				parser = [[SBJsonParser alloc] init];
+				
+				NSMutableDictionary *json = [parser objectWithString:content];
+				
+				NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
+                
+                if (![ok boolValue]) {
+					failCallback();
+					return;
+				}
+				
+				callback();
+				
+			} @catch (id theException) {
+				failCallback();
+				NSLog(@"Share's Error: %@", theException);
+			} @finally {
+				[parser release];
+			}
+			
+		}];
+		
+		[request setFailedBlock:^{
+			//DLog(@"");
+			failCallback();
+		}];
+		
+		[request startAsynchronous];
+	});
 }
 
 
 - (void) sharePromotion: (Promotion *) promotion
+            WithMessage: (NSString *) message
               AndOnDone: (void(^)()) callback
               AndOnFail: (void(^)()) failCallback
 {
-    DLog(@"");
-	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-		
-        DLog(@"");
-		[NSThread sleepForTimeInterval:1.5];
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+		//DLog(@"");
         
-        dispatch_async( dispatch_get_main_queue(), ^{
-            callback();
-        });
-    }); 
+        NSString *url = [NSString stringWithFormat:@"/promotion/%@/share", promotion.identity];
+        
+		ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[self createUrlToPath:url]];
+        [request setValidatesSecureCertificate:NO];
+		[request setPostValue:[CurrentUser singleton].identity forKey:@"member_id"];
+        [request setPostValue:message forKey:@"message"];
+		
+		[self attachSignature:request];
+		
+		[request setCompletionBlock:^{
+			//DLog(@"");
+			SBJsonParser *parser;
+			@try {
+				
+				NSString *content = [request responseString];
+				NSLog(@"response: %@", content);
+				
+				parser = [[SBJsonParser alloc] init];
+				
+				NSMutableDictionary *json = [parser objectWithString:content];
+				
+				NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
+                
+                if (![ok boolValue]) {
+					failCallback();
+					return;
+				}
+				
+				callback();
+				
+			} @catch (id theException) {
+				failCallback();
+				NSLog(@"Share's Error: %@", theException);
+			} @finally {
+				[parser release];
+			}
+			
+		}];
+		
+		[request setFailedBlock:^{
+			//DLog(@"");
+			failCallback();
+		}];
+		
+		[request startAsynchronous];
+	});
 }
 
 @end

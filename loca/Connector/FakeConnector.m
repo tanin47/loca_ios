@@ -206,7 +206,8 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
 	NSArray *permissions = [[NSArray alloc] initWithObjects:
-							@"email",
+							@"offline_access",
+                            @"email",
                             @"publish_stream",
                             @"user_birthday",
 							nil];
@@ -367,7 +368,8 @@
 
 
 - (void) transferBadge: (PromotionBadge *) badge
-          toFacebookId: (NSString *) facebookId
+          ToFacebookId: (NSString *) facebookId
+           WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
              AndOnFail: (void(^)()) failCallback
 {
@@ -387,6 +389,7 @@
 
 
 - (void) sharePromotion: (Promotion *) promotion
+            WithMessage: (NSString *) message
               AndOnDone: (void(^)()) callback
               AndOnFail: (void(^)()) failCallback
 {

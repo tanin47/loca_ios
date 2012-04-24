@@ -23,10 +23,19 @@ static NSMutableDictionary *hash = nil;
 @synthesize thumbnailUrl;
 
 @synthesize total;
-@synthesize collect;
+@synthesize collected_count;
 
 @synthesize badge;
 
+
+
++ (Promotion *) getObjectWithId: (NSString *) identity
+                 AndSetWithJson: (NSMutableDictionary *) json
+{
+    return [self getObjectWithId:identity 
+                  AndSetWithJson:json
+                     AndWithHash: (NSMutableDictionary *) hash];
+}
 
 
 + (Promotion *) newElement
@@ -34,6 +43,19 @@ static NSMutableDictionary *hash = nil;
     return [self newElementWithHash:hash];
 }
 
+
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json
+{
+	//DLog(@"");
+	self.identity = [json objectForKey:@"id"];
+	self.name = [json objectForKey:@"name"];
+	self.description = [json objectForKey:@"description"];
+    self.restaurant = [Restaurant getObjectWithId:[json objectForKey:@"restaurant_id"]];
+    self.thumbnailUrl = [json objectForKey:@"thumbnail_url"];
+    
+	self.collected_count = [(NSNumber *)[json objectForKey:@"collected_count"] intValue];
+	self.total = [(NSNumber *)[json objectForKey:@"total"] intValue];
+}
 
 
 @end

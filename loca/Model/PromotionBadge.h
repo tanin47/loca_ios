@@ -12,8 +12,11 @@
 
 
 @property (nonatomic, retain) Promotion *promotion;
-@property (nonatomic, retain) NSString *badgeNumber;
+@property (nonatomic, retain) NSString *number;
+@property (nonatomic) BOOL isUsed;
 
++ (void) updateAllWithJsonArray: (NSMutableArray *) array
 + (PromotionBadge *) newElement;
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json
 
 @end
