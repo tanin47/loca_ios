@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ASIFormDataRequest.h"
 
 @interface HttpConnector : Connector
 
+@property (nonatomic, retain) NSMutableArray *restaurants;
+@property (nonatomic, retain) NSMutableArray *promotions;
+@property (nonatomic, retain) NSMutableArray *badges;
+
+@property (nonatomic, retain) NSString *serverDomain;
+
+- (void) attachSignature: (ASIFormDataRequest *) request;
+- (NSURL *) createUrlToPath: (NSString *) path;
 @end

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F24297C41546AE8E00950EC9 /* md5.m in Sources */ = {isa = PBXBuildFile; fileRef = F24297C31546AE8E00950EC9 /* md5.m */; };
 		F2C8B7661544F09F009F6311 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7651544F09F009F6311 /* UIKit.framework */; };
 		F2C8B7681544F09F009F6311 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7671544F09F009F6311 /* Foundation.framework */; };
 		F2C8B76A1544F09F009F6311 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C8B7691544F09F009F6311 /* CoreGraphics.framework */; };
@@ -96,6 +97,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F24297C21546AE8E00950EC9 /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		F24297C31546AE8E00950EC9 /* md5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = md5.m; sourceTree = "<group>"; };
 		F2C8B7611544F09F009F6311 /* loca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = loca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C8B7651544F09F009F6311 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F2C8B7671544F09F009F6311 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -286,6 +289,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F24297C11546AE8E00950EC9 /* md5 */ = {
+			isa = PBXGroup;
+			children = (
+				F24297C21546AE8E00950EC9 /* md5.h */,
+				F24297C31546AE8E00950EC9 /* md5.m */,
+			);
+			path = md5;
+			sourceTree = "<group>";
+		};
 		F2C8B7561544F09F009F6311 = {
 			isa = PBXGroup;
 			children = (
@@ -323,6 +335,7 @@
 		F2C8B76B1544F09F009F6311 /* loca */ = {
 			isa = PBXGroup;
 			children = (
+				F24297C11546AE8E00950EC9 /* md5 */,
 				F2C8B8B315452D48009F6311 /* images */,
 				F2C8B89315452C6B009F6311 /* SDImage */,
 				F2C8B88A1545233D009F6311 /* LocationManager */,
@@ -753,6 +766,7 @@
 				F2D31E1B15456210004863B7 /* FriendRow.m in Sources */,
 				F2D31E2015456253004863B7 /* Friend.m in Sources */,
 				F2D31E2415456E7A004863B7 /* ShareMessageController.m in Sources */,
+				F24297C41546AE8E00950EC9 /* md5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

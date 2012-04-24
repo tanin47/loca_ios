@@ -17,7 +17,7 @@ static Connector *sharedInstance = nil;
 + (Connector *) singleton {
 	
 	if (sharedInstance == nil) {
-		Connector *tmp = [[FakeConnector alloc] init];
+		Connector *tmp = [[HttpConnector alloc] init];
 		[Connector setSingleton:tmp];
 		[tmp release];
 	}

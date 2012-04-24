@@ -50,6 +50,7 @@
 
 #import "Connector.h"
 #import "FakeConnector.h"
+#import "HttpConnector.h"
 
 #import "AppDelegate.h"
 #import "MainController.h"

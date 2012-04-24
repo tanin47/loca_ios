@@ -34,4 +34,12 @@ static NSMutableDictionary *hash = nil;
     return NO;
 }
 
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json
+{
+	//DLog(@"");
+	self.identity = [json objectForKey:@"id"];
+	self.facebookId = [json objectForKey:@"facebook_id"];
+	self.name = [json objectForKey:@"name"];
+}
+
 @end

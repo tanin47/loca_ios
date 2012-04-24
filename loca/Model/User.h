@@ -18,5 +18,6 @@
 @property (retain) NSString* thumbnailUrl;
 
 - (BOOL) isGuest;
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json;
 
 @end
