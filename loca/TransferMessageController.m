@@ -93,12 +93,14 @@ static TransferMessageController *sharedInstance = nil;
                                AndOnDone: ^{
                                    [DSBezelActivityView removeViewAnimated:YES];
                                    [self.navigationController popToViewController:[ViewController singleton] animated:YES];
+                                   
+                                   [[MyLocaController singleton].table startLoading];
                                }
-                               AndOnFail: ^{
+                               AndOnFail: ^(NSString *errorMessage) {
                                    [DSBezelActivityView removeViewAnimated:YES];
                                    
                                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"ล้มเหลว"
-                                                                                     message:@"ไม่สามารถส่งได้"
+                                                                                     message:errorMessage
                                                                                     delegate:nil
                                                                            cancelButtonTitle:@"ปิด"
                                                                            otherButtonTitles:nil];

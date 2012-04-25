@@ -27,9 +27,13 @@ static TransferFriendController *sharedInstance = nil;
 
 
 
+@synthesize searchTextbox;
+
 @synthesize table;
 @synthesize lastUpdate;
 @synthesize data;
+
+@synthesize filteredData;
 
 
 
@@ -38,6 +42,8 @@ static TransferFriendController *sharedInstance = nil;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.filteredData = [NSMutableArray arrayWithCapacity:100];
+        self.data = [NSMutableArray arrayWithCapacity:10];
     }
     return self;
 }
@@ -87,15 +93,16 @@ static TransferFriendController *sharedInstance = nil;
 {
 	//DLog(@"");
 	[super viewWillAppear:animated];
-	
+    
+    self.searchTextbox.text = @"";
 	self.table.emptyLabelText = @"คุณไม่มีเพื่อน";
+    
 	if (self.lastUpdate == nil || 
-		[[NSDate date] timeIntervalSinceDate:self.lastUpdate] > (60 * 10)) {
-		
+		[[NSDate date] timeIntervalSinceDate:self.lastUpdate] > (60 * 60)) {
 		[self.table startLoading];
 	
 	} else {
-		[self.table reloadData];
+		[self filterData];
 		[self.table stopLoading];
 	}
 }
@@ -121,8 +128,8 @@ static TransferFriendController *sharedInstance = nil;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 	//DLog(@"");
-	if (self.data == NULL) return 0;
-    return [self.data count];
+	if (self.filteredData == NULL) return 0;
+    return [self.filteredData count];
 }
 
 
@@ -135,7 +142,7 @@ static TransferFriendController *sharedInstance = nil;
         cell = [[[FriendRow alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
 	
-	Friend* friend = [self.data objectAtIndex:indexPath.row];
+	Friend* friend = [self.filteredData objectAtIndex:indexPath.row];
 	cell.friend = friend;
 	
     return cell;
@@ -153,7 +160,48 @@ static TransferFriendController *sharedInstance = nil;
 {	
     [self.navigationController pushViewController:[TransferMessageController singleton] animated:YES];
     
-    [TransferMessageController singleton].fbFriend = (Friend *) [self.data objectAtIndex:indexPath.row];
+    [TransferMessageController singleton].fbFriend = (Friend *) [self.filteredData objectAtIndex:indexPath.row];
+}
+
+#pragma mark -
+#pragma mark UISearchBarDelegate Methods
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    DLog(@"%@", self.searchTextbox.text);
+    [self filterData]; 
+    
+    if ([searchText isEqualToString:@""]) {
+        [self.searchTextbox resignFirstResponder];
+    }
+}
+
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    DLog(@"%@", self.searchTextbox.text);
+    [self filterData]; 
+    
+    [self.searchTextbox resignFirstResponder];
+}
+
+
+- (void) filterData
+{
+    NSString *keyword = self.searchTextbox.text;
+    
+    [self.filteredData removeAllObjects];
+    
+    for (Friend *f in self.data) {
+        
+        NSRange range = [f.name rangeOfString:keyword options:NSCaseInsensitiveSearch];
+
+        if ([keyword isEqualToString:@""] || range.location != NSNotFound) {
+            [self.filteredData addObject:f];
+        }
+    }
+    
+    
+    [self.table reloadData];
 }
 
 
@@ -169,7 +217,7 @@ static TransferFriendController *sharedInstance = nil;
         
         if ([self isViewLoaded] == NO) return;
         
-        [self.table reloadData];
+        [self filterData];
         [self.table stopLoading];
     } AndOnFail:^{
         if ([self isViewLoaded] == NO) return;

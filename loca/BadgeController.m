@@ -99,7 +99,7 @@ static BadgeController *sharedInstance = nil;
     
     self.name.text = self.badge.promotion.name;
     self.restaurantName.text = self.badge.promotion.restaurant.name;
-    self.badgeNumber.text = self.badge.badgeNumber;
+    self.badgeNumber.text = self.badge.number;
 }
 
 @end

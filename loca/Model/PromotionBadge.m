@@ -22,11 +22,25 @@ static NSMutableDictionary *hash = nil;
 - (void) dealloc
 {
     self.promotion = nil;
-    self.badgeNumber = nil;
+    self.number = nil;
     
     [super dealloc];
 }
 
+
++ (PromotionBadge *) getObjectWithId: (NSString *) identity
+{
+    return (PromotionBadge *)[self getObjectWithId:identity
+                                       AndWithHash:&hash];
+}
+
++ (PromotionBadge *) getObjectWithId: (NSString *) identity
+                  AndSetWithJson: (NSMutableDictionary *) json
+{
+    return (PromotionBadge *)[self getObjectWithId:identity 
+                                    AndSetWithJson:json
+                                       AndWithHash:&hash];
+}
 
 + (void) updateAllWithJsonArray: (NSMutableArray *) array
 {
@@ -34,7 +48,7 @@ static NSMutableDictionary *hash = nil;
 	for (NSMutableDictionary *row in array) {
 		[self getObjectWithId:[row objectForKey:@"id"]
                AndSetWithJson:row
-                  AndWithHash:hash];
+                  AndWithHash:&hash];
 	}
 }
 
@@ -42,7 +56,7 @@ static NSMutableDictionary *hash = nil;
 
 + (PromotionBadge *) newElement
 {
-    return [self newElementWithHash:hash];
+    return (PromotionBadge *)[self newElementWithHash:&hash];
 }
 
 - (void) setPropertiesFromJson: (NSMutableDictionary *) json
@@ -54,6 +68,8 @@ static NSMutableDictionary *hash = nil;
     self.isUsed = [(NSNumber *)[json objectForKey:@"collected_count"] boolValue];
     
     self.promotion.badge = self;
+    
+    DLog(@"%@ %@ %@", [json objectForKey:@"promotion_id"], [Promotion getObjectWithId:[json objectForKey:@"promotion_id"]], self.promotion);
 }
 
 

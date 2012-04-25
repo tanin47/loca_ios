@@ -42,12 +42,12 @@
 			self.facebook.accessToken = [defaults objectForKey:@"FBAccessTokenKey"];
 			self.facebook.expirationDate = [defaults objectForKey:@"FBExpirationDateKey"];
             
-			NSString *fbId = [defaults objectForKey:@"FBId"];
+			NSString *locaId = [defaults objectForKey:@"LocaId"];
 			
-			if (fbId != nil) {
-				User *user = [User getObjectWithId:fbId];
+			if (locaId != nil) {
+				User *user = [User getObjectWithId:locaId];
                 
-				user.identity = [defaults objectForKey:@"FBId"];
+				user.identity = [defaults objectForKey:@"LocaId"];
 				user.name = [defaults objectForKey:@"FBName"];
 				user.facebookId = [defaults objectForKey:@"FBId"];
 				user.thumbnailUrl = [defaults objectForKey:@"FBThumbnailUrl"];

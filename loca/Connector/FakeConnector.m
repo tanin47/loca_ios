@@ -291,7 +291,7 @@
 
 - (void) collectPromotion: (Promotion *) promotion
                 AndOnDone:(void(^)()) callback
-                AndOnFail:(void(^)()) failCallback
+                AndOnFail:(void(^)(NSString *errorMessage)) failCallback
 {
     DLog(@"");
 	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -302,7 +302,7 @@
         PromotionBadge *badge = [PromotionBadge newElement];
         badge.promotion = promotion;
         promotion.badge = badge;
-        badge.badgeNumber = [NSString stringWithFormat:@"%04d-%04d-%04d", (arc4random() % 1000), (arc4random() % 1000), [self.badges count]];
+        badge.number = [NSString stringWithFormat:@"%04d-%04d-%04d", (arc4random() % 1000), (arc4random() % 1000), [self.badges count]];
         
         [self.badges insertObject:badge atIndex:0];
         
@@ -371,7 +371,7 @@
           ToFacebookId: (NSString *) facebookId
            WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
-             AndOnFail: (void(^)()) failCallback
+             AndOnFail: (void(^)(NSString *errorMessage)) failCallback
 {
     DLog(@"");
 	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{

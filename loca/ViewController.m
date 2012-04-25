@@ -36,6 +36,7 @@ static ViewController *sharedInstance = nil;
 @synthesize name;
 @synthesize restaurantName;
 @synthesize description;
+@synthesize date;
 
 @synthesize pin;
 @synthesize map;
@@ -159,12 +160,12 @@ static ViewController *sharedInstance = nil;
                                       [self updateUI];
                                       [DSBezelActivityView removeViewAnimated:YES];
                                   }
-                                  AndOnFail:^{
+                                  AndOnFail:^(NSString *errorMessage){
                                       [self updateUI];
                                       [DSBezelActivityView removeViewAnimated:YES];
                                       
                                       UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"ล้มเหลว"
-                                                                                        message:@"ไม่สามารถบันทึกได้"
+                                                                                        message:errorMessage
                                                                                        delegate:nil
                                                                               cancelButtonTitle:@"ปิด"
                                                                               otherButtonTitles:nil];
@@ -251,15 +252,25 @@ static ViewController *sharedInstance = nil;
     self.restaurantName.text = self.promotion.restaurant.name;
     [self.thumbnail setImageWithURL:[NSURL resolveString:self.promotion.thumbnailUrl]
                    placeholderImage:[UIImage imageNamed:@"default_promotion_thumbnail.png"]];
+
+    self.date.text = [NSString stringWithFormat:@"%@ - %@", 
+                        [self.promotion.startDate thaiDate], 
+                        [self.promotion.endDate thaiDate]];
     
-    
+    DLog(@"%@", self.promotion.badge);
     if ([[CurrentUser singleton] isGuest] == YES || self.promotion.badge == nil) {
         self.collectButton.hidden = NO;
         self.showBadgeButton.hidden = YES;
-        self.transferButton.hidden = YES;
     } else {
         self.collectButton.hidden = YES;
         self.showBadgeButton.hidden = NO;
+    }
+    
+    if ([[CurrentUser singleton] isGuest] == YES 
+        || self.promotion.badge == nil
+        || self.promotion.badge.isUsed == YES) {
+        self.transferButton.hidden = YES;
+    } else {
         self.transferButton.hidden = NO;
     }
     

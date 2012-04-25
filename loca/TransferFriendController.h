@@ -8,14 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TransferFriendController : UIViewController
+@interface TransferFriendController : UIViewController<UISearchBarDelegate>
 
+
+@property (nonatomic, retain) IBOutlet UISearchBar *searchTextbox;
 
 @property (nonatomic, retain) IBOutlet UIPullToRefreshTableView *table;
 @property (nonatomic, retain) NSDate *lastUpdate;
-@property (retain) NSMutableArray* data;
+@property (nonatomic, retain) NSMutableArray* data;
+
+@property (nonatomic, retain) NSMutableArray* filteredData;
 
 - (IBAction) backClicked: (id) sender;
+- (void) filterData;
 
 + (TransferFriendController *) singleton;
 

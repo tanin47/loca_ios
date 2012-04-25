@@ -12,10 +12,6 @@
 @implementation HttpConnector
 
 
-@synthesize restaurants;
-@synthesize promotions;
-@synthesize badges;
-
 @synthesize serverDomain;
 
 
@@ -47,54 +43,7 @@
 - (id) init {
 	//DLog(@"");
 	if (self = [super init]) {
-        
-        self.serverDomain = @"localhost:3000";
-    
-        self.restaurants = [NSMutableArray arrayWithCapacity:5];
-        
-        Restaurant *bacco = [Restaurant newElement];
-        bacco.name = @"Bacco";
-        bacco.description = @"ขายอาหารอิตาเลี่ยน";
-        bacco.latitude = [LocationManager singleton].currentLocation.coordinate.latitude + ((double) (arc4random() % 100) / 70000.0);
-		bacco.longitude = [LocationManager singleton].currentLocation.coordinate.longitude + ((double) (arc4random() % 100) / 70000.0);
-        [self.restaurants addObject:bacco];
-        
-        
-        Restaurant *ramen = [Restaurant newElement];
-        ramen.name = @"Grand Ramen";
-        ramen.description = @"ขายราเมน";
-        ramen.latitude = [LocationManager singleton].currentLocation.coordinate.latitude + ((double) (arc4random() % 100) / 70000.0);
-		ramen.longitude = [LocationManager singleton].currentLocation.coordinate.longitude + ((double) (arc4random() % 100) / 70000.0);
-        [self.restaurants addObject:ramen];
-        
-        
-        
-        
-        self.promotions = [NSMutableArray arrayWithCapacity:5];
-        
-        {
-            Promotion *pro = [Promotion newElement];
-            pro.name = @"Salad 50%";
-            pro.description = @"เติมเต็มความอร่อยไม่อั้นในมื้อพิเศษของคุณ กับอาหารบุฟเฟต์นานาชาติรสเลิศ ที่ 92 café โรงแรม Golden Tulip Sovereign - พระราม 9";
-            pro.restaurant = bacco;
-            pro.thumbnailUrl = @"http://seafoodbar.files.wordpress.com/2011/11/sushi-promotion-thumbnail1.jpg?w=300";
-            [self.promotions addObject:pro];
-        }
-        
-        {
-            Promotion *pro = [Promotion newElement];
-            pro.name = @"Ramen 50%";
-            pro.description = @"พบคำตอบสำหรับนักเดินทางเช่นคุณ กับ 1 คืน ในห้องดีลักซ์สแตนดาร์ด สำหรับ 2 ท่าน ท่ามกลางแสงสีและชีวิตชีวาของเมืองพัทยา (มูลค่า 3,600 บาท)";
-            pro.restaurant = ramen;
-            pro.thumbnailUrl = @"http://i2.ytimg.com/vi/yfEUwNQTXwU/hqdefault.jpg";
-            [self.promotions addObject:pro];
-        }
-        
-        
-        
-        
-        self.badges = [NSMutableArray arrayWithCapacity:5];
-        
+        self.serverDomain = SERVER_DOMAIN;
     }
     return self;
 }
@@ -103,9 +52,6 @@
 
 - (void) dealloc
 {
-    self.promotions = nil;
-    self.restaurants = nil;
-    
     [super dealloc];
 }
 
@@ -152,6 +98,7 @@
                                     [CurrentUser setSingleton:user];
                                     
                                     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                                    [defaults setObject:[CurrentUser singleton].identity forKey:@"LocaId"];
                                     [defaults setObject:[CurrentUser singleton].name forKey:@"FBName"];
                                     [defaults setObject:[CurrentUser singleton].facebookId forKey:@"FBId"];
                                     [defaults setObject:[CurrentUser singleton].thumbnailUrl forKey:@"FBThumbnailUrl"];
@@ -244,6 +191,10 @@
 	[delegate.facebook logout];
 	
 	[CurrentUser setSingleton:[Guest singleton]];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:nil forKey:@"LocaId"];
+    [defaults synchronize];
     
     //DLog(@"");
 	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -395,7 +346,7 @@
 
 - (void) collectPromotion: (Promotion *) promotion
                 AndOnDone:(void(^)()) callback
-                AndOnFail:(void(^)()) failCallback
+                AndOnFail:(void(^)(NSString *errorMessage)) failCallback
 {
     DLog(@"");
 	dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
@@ -423,7 +374,8 @@
 				NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
                 
                 if (![ok boolValue]) {
-                    failCallback();
+                    NSString *errorMessage = (NSString *)[json objectForKey:@"error_message"];
+                    failCallback(errorMessage);
                     return;
                 }
 				
@@ -438,12 +390,15 @@
 				NSMutableDictionary *badgeData = (NSMutableDictionary *)[json objectForKey:@"badge"];
                 [PromotionBadge getObjectWithId: [badgeData objectForKey:@"id"]
                                  AndSetWithJson: badgeData];
+                
+                NSMutableDictionary *userData = (NSMutableDictionary *)[json objectForKey:@"member"];
+                [User getObjectWithId: [userData objectForKey:@"id"]
+                       AndSetWithJson: userData];
 				
                 callback();
 				
 			} @catch (id theException) {
-				failCallback();
-				NSLog(@"UserConnect's Error: %@", theException);
+				failCallback([NSString stringWithFormat:@"%@", theException]);
 			} @finally {
 				[parser release];
 			}
@@ -452,7 +407,7 @@
 		
 		[request setFailedBlock:^{
 			//DLog(@"");
-			failCallback();
+			failCallback(@"ไม่สามารถติดต่อกับระบบได้ กรุณารออีก 2-3 นาทีแล้วลองใหม่");
 		}];
 		
 		[request startAsynchronous];
@@ -497,7 +452,7 @@
                 NSMutableArray *returnBadges = [NSMutableArray arrayWithCapacity:[badgeList count]];
                 
                 for (NSMutableDictionary *row in badgeList) {
-                    Badge *badge = [PromotionBadge getObjectWithId:[row objectForKey:@"id"]
+                    PromotionBadge *badge = [PromotionBadge getObjectWithId:[row objectForKey:@"id"]
                                                             AndSetWithJson:row];
                     [returnBadges addObject:badge];
                 }
@@ -566,12 +521,12 @@
           ToFacebookId: (NSString *) facebookId
            WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
-             AndOnFail: (void(^)()) failCallback
+             AndOnFail: (void(^)(NSString *errorMessage)) failCallback
 {
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
 		//DLog(@"");
         
-        NSString *url = [NSString stringWithFormat:@"/promotion/%@/transfer", promotion.identity];
+        NSString *url = [NSString stringWithFormat:@"/promotion_badge/%@/transfer", badge.identity];
         
 		ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[self createUrlToPath:url]];
         [request setValidatesSecureCertificate:NO];
@@ -596,15 +551,17 @@
 				NSNumber *ok = (NSNumber *)[json objectForKey:@"ok"];
                 
                 if (![ok boolValue]) {
-					failCallback();
+                    NSString *errorMessage = (NSString *)[json objectForKey:@"error_message"];
+					failCallback(errorMessage);
 					return;
 				}
+                
+                badge.promotion.badge = nil;
 				
 				callback();
-				
+                
 			} @catch (id theException) {
-				failCallback();
-				NSLog(@"Share's Error: %@", theException);
+				failCallback([NSString stringWithFormat:@"%@", theException]);
 			} @finally {
 				[parser release];
 			}
@@ -613,7 +570,7 @@
 		
 		[request setFailedBlock:^{
 			//DLog(@"");
-			failCallback();
+			failCallback(@"ไม่สามารถติดต่อกับระบบได้ กรุณารอ 2-3 นาที แล้วลองอีกครั้ง");
 		}];
 		
 		[request startAsynchronous];
@@ -657,6 +614,11 @@
 					return;
 				}
 				
+                NSMutableDictionary *userData = (NSMutableDictionary *)[json objectForKey:@"member"];
+                [User getObjectWithId: [userData objectForKey:@"id"]
+                            AndSetWithJson: userData];
+                
+                
 				callback();
 				
 			} @catch (id theException) {

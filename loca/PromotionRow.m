@@ -64,7 +64,7 @@
     
     self.name.text = self.promotion.name;
     self.restaurantName.text = self.promotion.restaurant.name;
-    self.quota.text = [NSString stringWithFormat:@"เก็บไปแล้ว %d จากทั้งหมด %d", self.promotion.collect, self.promotion.total];
+    self.quota.text = [NSString stringWithFormat:@"เก็บไปแล้ว %d จากทั้งหมด %d", self.promotion.collected_count, self.promotion.total];
     
     [self.thumbnail setImageWithURL:[NSURL resolveString:self.promotion.thumbnailUrl]
                    placeholderImage:[UIImage imageNamed:@"default_promotion_thumbnail.png"]];

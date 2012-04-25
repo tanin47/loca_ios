@@ -15,6 +15,10 @@
 @property (nonatomic, retain) IBOutlet UIButton *loginButton;
 @property (nonatomic, retain) IBOutlet UIButton *logoutButton;
 
+@property (nonatomic, retain) IBOutlet UIButton *switchConnectorButton;
+
+- (IBAction) switchConnectorClicked: (id) sender;
+
 - (IBAction) loginClicked: (id) sender;
 - (IBAction) logoutClicked: (id) sender;
 

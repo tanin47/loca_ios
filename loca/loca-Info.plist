@@ -13,6 +13,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>fb223148047794034</string>
 				<string>fb252813778151288</string>
 			</array>
 		</dict>
@@ -22,17 +23,17 @@
 	<key>CFBundleIdentifier</key>
 	<string>unun.loca</string>
 	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
+	<string>6.0.1</string>
 	<key>CFBundleName</key>
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>

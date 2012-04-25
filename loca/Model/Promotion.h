@@ -23,13 +23,17 @@
 @property (nonatomic) int total;
 @property (nonatomic) int collected_count;
 
+@property (nonatomic, retain) NSDate *startDate;
+@property (nonatomic, retain) NSDate *endDate;
+
 @property (nonatomic, retain) PromotionBadge *badge;
 
-
++ (Promotion *) getObjectWithId: (NSString *) identity;
 + (Promotion *) getObjectWithId: (NSString *) identity
                  AndSetWithJson: (NSMutableDictionary *) json;
 + (Promotion *) newElement;
-
++ (void) updateAllWithJsonArray: (NSMutableArray *) array;
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json;
 
 
 @end

@@ -16,15 +16,16 @@
 
 
 
-+ (BaseModel *) newElementWithHash:(NSMutableDictionary *) hash;
++ (BaseModel *) newElementWithHash:(NSMutableDictionary **) hash;
 + (BaseModel *) getObjectWithId: (NSString *) identity
-                    AndWithHash: (NSMutableDictionary *) hash;
+                    AndWithHash: (NSMutableDictionary **) hash;
 + (BaseModel *) getObjectWithId: (NSString *) identity
-                    AndWithHash: (NSMutableDictionary *) hash;
+                    AndWithHash: (NSMutableDictionary **) hash;
 + (BaseModel *) getObjectWithId: (NSString *) identity
                  AndSetWithJson: (NSMutableDictionary *) json
-                    AndWithHash: (NSMutableDictionary *) hash;
+                    AndWithHash: (NSMutableDictionary **) hash;
 + (void) updateAllWithJsonArray: (NSMutableArray *) array
-                    AndWithHash: (NSMutableDictionary *) hash;
+                    AndWithHash: (NSMutableDictionary **) hash;
+- (void) setPropertiesFromJson: (NSMutableDictionary *) json;
 
 @end

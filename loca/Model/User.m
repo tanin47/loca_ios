@@ -16,17 +16,23 @@ static NSMutableDictionary *hash = nil;
 
 + (User *) getObjectWithId: (NSString *) userId
 {
-	if (hash == nil) hash = [[NSMutableDictionary alloc] init];
-	
-    return [self getObjectWithId:userId 
-                     AndWithHash:hash];
+    return (User *)[self getObjectWithId:userId 
+                             AndWithHash:&hash];
+}
+
++ (User *) getObjectWithId: (NSString *) identity
+                 AndSetWithJson: (NSMutableDictionary *) json
+{
+    return (User *) [self getObjectWithId:identity 
+                           AndSetWithJson:json
+                              AndWithHash:&hash];
 }
 
 
-@synthesize identity;
 @synthesize facebookId;  
 @synthesize name;
 @synthesize thumbnailUrl;
+@synthesize point;
 
 
 - (BOOL) isGuest
@@ -40,6 +46,7 @@ static NSMutableDictionary *hash = nil;
 	self.identity = [json objectForKey:@"id"];
 	self.facebookId = [json objectForKey:@"facebook_id"];
 	self.name = [json objectForKey:@"name"];
+    self.point = [(NSNumber *)[json objectForKey:@"point"] intValue];
 }
 
 @end

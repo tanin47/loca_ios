@@ -40,7 +40,7 @@
 
 - (void) collectPromotion: (Promotion *) promotion
                 AndOnDone:(void(^)()) callback
-                AndOnFail:(void(^)()) failCallback;
+                AndOnFail:(void(^)(NSString *errorMessage)) failCallback;
 
 - (void) getPromotionBadgeAndOnDone:(void(^)(NSMutableArray *badges)) callback
                           AndOnFail:(void(^)()) failCallback;
@@ -52,7 +52,7 @@
           ToFacebookId: (NSString *) facebookId
            WithMessage: (NSString *) message
              AndOnDone: (void(^)()) callback
-             AndOnFail: (void(^)()) failCallback;
+             AndOnFail: (void(^)(NSString *errorMessage)) failCallback;
 
 - (void) sharePromotion: (Promotion *) promotion
             WithMessage: (NSString *) message

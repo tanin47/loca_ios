@@ -7,7 +7,7 @@
 //
 
 #import "MenuController.h"
-
+#import <objc/runtime.h>
 
 static MenuController *sharedInstance = nil;
 
@@ -28,7 +28,7 @@ static MenuController *sharedInstance = nil;
 @synthesize myLocaButton;
 @synthesize loginButton;
 @synthesize logoutButton;
-
+@synthesize switchConnectorButton;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -141,6 +141,18 @@ static MenuController *sharedInstance = nil;
 }
 
 
+- (IBAction) switchConnectorClicked: (id) sender
+{
+    if ([[Connector singleton] isKindOfClass:[FakeConnector class]]) {
+		[Connector setSingleton:[[HttpConnector alloc] init]];
+	} else {
+        [Connector setSingleton:[[FakeConnector alloc] init]];
+    }
+    
+    [self updateUI];
+}
+
+
 - (void) updateUI
 {
     if ([[CurrentUser singleton] isGuest] == YES) {
@@ -155,11 +167,13 @@ static MenuController *sharedInstance = nil;
         
         self.logoutButton.hidden = NO;
         self.loginButton.hidden = YES;
-        self.nameLabel.text = [CurrentUser singleton].name;
+        self.nameLabel.text = [NSString stringWithFormat:@"%@ [%d]", [CurrentUser singleton].name, [CurrentUser singleton].point];
         
         self.myLocaButton.hidden = NO;
         
     }
+    
+    [self.switchConnectorButton setTitle:[NSString stringWithFormat:@"%s", class_getName([[Connector singleton] class])] forState:UIControlStateNormal];
 }
 
 @end

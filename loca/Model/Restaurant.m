@@ -23,11 +23,17 @@ static NSMutableDictionary *hash = nil;
 
 
 + (Restaurant *) getObjectWithId: (NSString *) identity
+{
+    return (Restaurant *)[self getObjectWithId:identity
+                                   AndWithHash:&hash];
+}
+
++ (Restaurant *) getObjectWithId: (NSString *) identity
                  AndSetWithJson: (NSMutableDictionary *) json
 {
-    return [self getObjectWithId:identity 
-                  AndSetWithJson:json
-                     AndWithHash: (NSMutableDictionary *) hash];
+    return (Restaurant *)[self getObjectWithId:identity 
+                                AndSetWithJson:json
+                                   AndWithHash:&hash];
 }
 
 
@@ -37,14 +43,14 @@ static NSMutableDictionary *hash = nil;
 	for (NSMutableDictionary *row in array) {
 		[self getObjectWithId:[row objectForKey:@"id"]
                AndSetWithJson:row
-                  AndWithHash:hash];
+                  AndWithHash:&hash];
 	}
 }
 
 
 + (Restaurant *) newElement
 {
-    return [self newElementWithHash:hash];
+    return (Restaurant *)[self newElementWithHash:&hash];
 }
 
 - (void) setPropertiesFromJson: (NSMutableDictionary *) json

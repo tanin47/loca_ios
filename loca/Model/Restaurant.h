@@ -19,6 +19,7 @@
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 
++ (Restaurant *) getObjectWithId: (NSString *) identity;
 + (Restaurant *) getObjectWithId: (NSString *) identity
                   AndSetWithJson: (NSMutableDictionary *) json;
 + (Restaurant *) newElement;

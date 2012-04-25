@@ -18,6 +18,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *name;
 @property (nonatomic, retain) IBOutlet UILabel *restaurantName;
 @property (nonatomic, retain) IBOutlet UILabel *description;
+@property (nonatomic, retain) IBOutlet UILabel *date;
 
 @property (nonatomic, retain) RestaurantPin *pin;
 @property (nonatomic, retain) IBOutlet MKMapView *map;

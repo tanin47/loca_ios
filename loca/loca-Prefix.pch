@@ -23,10 +23,25 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define FACEBOOK_APP_ID @"252813778151288"
+
+#ifdef DEBUG
+
+    #define FACEBOOK_APP_ID @"252813778151288"
+    #define SERVER_DOMAIN @"localhost:3000"
+
+#else
+
+    #define FACEBOOK_APP_ID @"223148047794034"
+    #define SERVER_DOMAIN @"46.137.213.161"
+
+#endif
+
+
 
 #import "NSURL+NSURL_ResolveString.h"
 #import "UIImageView+WebCache.h"
+#import "ISO8601DateFormatter.h"
+#import "SemanticTime.h"
 
 #import "LocationManager.h"
 #import "FBConnect.h"

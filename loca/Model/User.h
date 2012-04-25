@@ -12,10 +12,13 @@
 
 + (User *) getObjectWithId: (NSString *) userId;
 
-@property (retain) NSString *identity;
-@property (retain) NSString *facebookId;  
-@property (retain) NSString *name;
-@property (retain) NSString* thumbnailUrl;
++ (User *) getObjectWithId: (NSString *) identity
+                 AndSetWithJson: (NSMutableDictionary *) json;
+
+@property (nonatomic, retain) NSString *facebookId;  
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString* thumbnailUrl;
+@property (nonatomic) int point;
 
 - (BOOL) isGuest;
 - (void) setPropertiesFromJson: (NSMutableDictionary *) json;
