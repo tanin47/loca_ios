@@ -13,6 +13,8 @@
 @property (nonatomic, retain) Promotion *promotion;
 @property (nonatomic, retain) IBOutlet UITextView *textbox;
 
+- (void) releaseOutlets;
+
 - (IBAction) backClicked: (id) sender;
 - (IBAction) shareClicked: (id) sender;
 

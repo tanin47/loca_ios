@@ -87,6 +87,7 @@
     self.fakeCurrentUser = nil;
     self.promotions = nil;
     self.restaurants = nil;
+    self.badges = nil;
     
     [super dealloc];
 }

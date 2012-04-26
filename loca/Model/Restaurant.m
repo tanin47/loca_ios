@@ -22,6 +22,15 @@ static NSMutableDictionary *hash = nil;
 @synthesize longitude;
 
 
+- (void) dealloc
+{
+    self.name = nil;
+    self.description = nil;
+    
+    [super dealloc];
+}
+
+
 + (Restaurant *) getObjectWithId: (NSString *) identity
 {
     return (Restaurant *)[self getObjectWithId:identity

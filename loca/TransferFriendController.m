@@ -69,8 +69,25 @@ static TransferFriendController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
+}
+
+- (void) releaseOutlets
+{
+    self.searchTextbox = nil;
+    self.table = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    
+    self.lastUpdate = nil;
+    self.data = nil;
+    
+    self.filteredData = nil;
+    
+    [super dealloc];
 }
 
 

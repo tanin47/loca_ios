@@ -59,9 +59,24 @@ static MenuController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
 }
+
+- (void) releaseOutlets
+{
+    self.nameLabel = nil;
+    self.myLocaButton = nil;
+    self.loginButton = nil;
+    self.logoutButton = nil;
+    self.switchConnectorButton = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    [super dealloc];
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

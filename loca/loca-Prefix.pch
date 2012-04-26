@@ -42,6 +42,7 @@
 #import "UIImageView+WebCache.h"
 #import "ISO8601DateFormatter.h"
 #import "SemanticTime.h"
+#import "md5.h"
 
 #import "LocationManager.h"
 #import "FBConnect.h"

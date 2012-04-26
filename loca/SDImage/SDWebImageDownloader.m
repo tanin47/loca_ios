@@ -110,6 +110,18 @@ NSString *const SDWebImageDownloadStopNotification = @"SDWebImageDownloadStopNot
 
 #pragma mark NSURLConnection (delegate)
 
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+    return YES;
+}
+
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge: (NSURLAuthenticationChallenge *)challenge {
+    
+    [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+    [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
+
+
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response
 {
     if ([((NSHTTPURLResponse *)response) statusCode] >= 400)

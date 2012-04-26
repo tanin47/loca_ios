@@ -51,10 +51,7 @@ static HomeController *sharedInstance = nil;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
-    
-	// prepare view controllers
+
 	self.menuController = [MenuController singleton];
     self.frameController = [HomeFrameController singleton];
 	
@@ -70,6 +67,29 @@ static HomeController *sharedInstance = nil;
                                                   menuController.view.frame.size.height);
     
 	self.mainController = [ListController singleton];
+}
+
+
+
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    [self releaseOutlets];
+}
+
+
+- (void) releaseOutlets
+{
+    self.menuController = nil;
+    self.mainController = nil;
+    self.frameController = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    [super dealloc];
 }
 
 
@@ -212,28 +232,6 @@ static HomeController *sharedInstance = nil;
 					 }];		
 }
 
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    [self releaseOutlets];
-}
-
-
-- (void) releaseOutlets
-{
-    self.menuController = nil;
-    self.mainController = nil;
-    self.frameController = nil;
-}
-
-- (void) dealloc
-{
-    [self releaseOutlets];
-    [super dealloc];
-}
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

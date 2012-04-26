@@ -75,8 +75,23 @@ static BadgeController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
+}
+
+- (void) releaseOutlets
+{
+    self.name = nil;
+    self.restaurantName = nil;
+    self.badgeNumber = nil;
+}
+
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    self.badge = nil;
+    
+    [super dealloc];
 }
 
 

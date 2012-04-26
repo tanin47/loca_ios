@@ -49,6 +49,19 @@
 }
 
 
+- (void) dealloc 
+{
+    self.cell = nil;
+    self.name = nil;
+    self.restaurantName = nil;
+    self.quota = nil;
+    self.thumbnail = nil;
+    self.promotion = nil;
+    
+    [super dealloc];
+}
+
+
 - (void) setPromotion:(Promotion *) newPromotion
 {
     [promotion release];
@@ -68,6 +81,7 @@
     
     [self.thumbnail setImageWithURL:[NSURL resolveString:self.promotion.thumbnailUrl]
                    placeholderImage:[UIImage imageNamed:@"default_promotion_thumbnail.png"]];
+
 }
 
 

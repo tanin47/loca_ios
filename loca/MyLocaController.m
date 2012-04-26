@@ -62,9 +62,25 @@ static MyLocaController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
 }
+
+
+- (void) releaseOutlets
+{
+    self.table = nil;
+}
+
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    self.data = nil;
+    self.lastUpdate = nil;
+    
+    [super dealloc];
+}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

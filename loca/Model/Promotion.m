@@ -31,6 +31,23 @@ static NSMutableDictionary *hash = nil;
 @synthesize badge;
 
 
+- (void) dealloc
+{
+    self.name = nil;
+    self.description = nil;
+    
+    self.restaurant = nil;
+    self.thumbnailUrl = nil;
+    
+    self.startDate = nil;
+    self.endDate = nil;
+    
+    self.badge = nil;
+    
+    [super dealloc];
+}
+
+
 + (Promotion *) getObjectWithId: (NSString *) identity
 {
     return (Promotion *)[self getObjectWithId:identity
@@ -81,8 +98,7 @@ static NSMutableDictionary *hash = nil;
 	self.startDate = [formatter dateFromString:[json objectForKey:@"start_date"]];
 	self.endDate = [formatter dateFromString:[json objectForKey:@"end_date"]];
 	[formatter release];
-    
-    DLog(@"%@", self.identity);
+
 }
 
 

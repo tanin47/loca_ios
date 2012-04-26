@@ -29,7 +29,7 @@
 						   iphoneId,
 						   time];
 	
-	[request setPostValue:[signature md5] forKey:@"signature"];
+	[request setPostValue:(NSString *)[signature md5] forKey:@"signature"];
 }
 
 
@@ -52,6 +52,7 @@
 
 - (void) dealloc
 {
+    self.serverDomain = nil;
     [super dealloc];
 }
 
@@ -144,19 +145,6 @@
 {
 	facebookRequestDidFail(request, error);
     [self releaseFacebookCallbackBlocks];
-}
-
-
-- (void) releaseFacebookCallbackBlocks
-{
-    [facebookRequestDidLoad release]; 
-    [facebookRequestDidFail release];
-}
-
-- (void) releaseLoginCallbackBlocks
-{
-    [loginCallback release];
-    [loginFailCallback release];
 }
 
 

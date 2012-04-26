@@ -15,6 +15,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *name;
 @property (nonatomic, retain) IBOutlet UILabel *description;
 
+- (void) releaseOutlets;
 
 - (IBAction) backClicked: (id) sender;
 - (void) updateUI;

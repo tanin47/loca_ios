@@ -19,6 +19,8 @@
 
 @property (nonatomic, retain) NSMutableArray* filteredData;
 
+- (void) releaseOutlets;
+
 - (IBAction) backClicked: (id) sender;
 - (void) filterData;
 

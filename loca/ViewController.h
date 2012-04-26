@@ -27,6 +27,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *showBadgeButton;
 @property (nonatomic, retain) IBOutlet UIButton *transferButton;
 
+- (void) releaseOutlets;
+
 - (IBAction) backClicked: (id) sender;
 - (IBAction) collectClicked: (id) sender;
 - (IBAction) showBadgeClicked: (id) sender;

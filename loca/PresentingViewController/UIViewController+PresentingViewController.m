@@ -22,7 +22,7 @@ static char const * const PresentedViewControllerKey = "iOS4_presentedViewContro
 
 void MethodAdd(Class c, SEL dest, SEL source)
 {
-    Method destMethod = class_getInstanceMethod(c, dest);
+    //Method destMethod = class_getInstanceMethod(c, dest);
     Method sourceMethod = class_getInstanceMethod(c, source);
     class_addMethod(c, dest, method_getImplementation(sourceMethod), method_getTypeEncoding(sourceMethod));
 }

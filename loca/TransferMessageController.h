@@ -13,6 +13,8 @@
 @property (nonatomic, retain) Friend *fbFriend;
 @property (nonatomic, retain) IBOutlet UITextView *textbox;
 
+- (void) releaseOutlets;
+
 - (IBAction) backClicked: (id) sender;
 - (IBAction) transferClicked: (id) sender;
 

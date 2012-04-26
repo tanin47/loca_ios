@@ -13,6 +13,13 @@
 
 @synthesize identity;
 
+- (void) dealloc
+{
+    self.identity = nil;
+    
+    [super dealloc];
+}
+
 
 
 + (BaseModel *) newElementWithHash:(NSMutableDictionary **) hash

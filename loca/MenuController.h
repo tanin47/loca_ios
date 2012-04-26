@@ -17,6 +17,8 @@
 
 @property (nonatomic, retain) IBOutlet UIButton *switchConnectorButton;
 
+- (void) releaseOutlets;
+
 - (IBAction) switchConnectorClicked: (id) sender;
 
 - (IBAction) loginClicked: (id) sender;

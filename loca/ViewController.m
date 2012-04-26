@@ -85,10 +85,33 @@ static ViewController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
 }
 
+
+- (void) releaseOutlets
+{
+    self.thumbnail = nil;
+    self.name = nil;
+    self.restaurantName = nil;
+    self.description = nil;
+    self.date = nil;
+    
+    self.pin = nil;
+    self.map = nil;
+    
+    self.collectButton = nil;
+    self.showBadgeButton = nil;
+    self.transferButton = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    self.promotion = nil;
+    
+    [super dealloc];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

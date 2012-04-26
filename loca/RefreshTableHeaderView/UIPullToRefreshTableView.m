@@ -64,10 +64,6 @@
 	_refreshHeaderView = nil;
 	
 	[super dealloc];
-	
-	NSLog(@"%@",[NSThread callStackSymbols]);
-	
-	//DLog(@"end");
 }
 
 

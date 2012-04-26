@@ -35,6 +35,16 @@
 }
 
 
+- (void) dealloc
+{
+    self.badge = nil;
+    self.thumbnail = nil;
+    self.name = nil;
+    
+    [super dealloc];
+}
+
+
 - (void) setBadge:(PromotionBadge *)newBadge
 {
     [badge release];

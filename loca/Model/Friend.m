@@ -13,6 +13,16 @@
 @synthesize facebookId;
 @synthesize name;
 
+
+- (void) dealloc
+{
+    self.facebookId = nil;
+    self.name = nil;
+    
+    [super dealloc];
+}
+
+
 - (NSString *) getThumbnailUrl
 {
     NSString *url = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=square", self.facebookId];

@@ -13,7 +13,7 @@
 
 }
 
-@property CLLocationCoordinate2D coordinate;
+@property (nonatomic) CLLocationCoordinate2D coordinate;
 
 -(id)initWithCoordinate:(CLLocationCoordinate2D)coordinate;  
 

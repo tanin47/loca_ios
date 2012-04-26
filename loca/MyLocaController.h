@@ -17,6 +17,8 @@
 @property (nonatomic, retain) NSDate *lastUpdate;
 
 
+- (void) releaseOutlets;
+
 - (IBAction) toggleMenu: (id) sender;
 + (MyLocaController *) singleton;
 

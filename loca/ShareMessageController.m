@@ -59,8 +59,20 @@ static ShareMessageController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
+}
+
+- (void) releaseOutlets
+{
+    self.textbox = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    self.promotion = nil;
+    
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

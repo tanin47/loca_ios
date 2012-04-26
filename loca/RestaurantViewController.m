@@ -44,8 +44,20 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
+}
+
+- (void) releaseOutlets
+{
+    self.name = nil;
+    self.description = nil;
+}
+
+- (void) dealloc
+{
+    [self releaseOutlets];
+    self.restaurant = nil;
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

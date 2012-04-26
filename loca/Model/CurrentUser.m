@@ -29,7 +29,7 @@ static User *sharedInstance = nil;
 
 + (User *) setSingleton: (User *) user {
     @synchronized(self) {
-		CurrentUser *previous = sharedInstance;
+		User *previous = sharedInstance;
 		sharedInstance = [user retain];
 		if (previous == nil) [previous release];
     }

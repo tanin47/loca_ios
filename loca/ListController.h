@@ -14,8 +14,10 @@
 
 @property (nonatomic, retain) IBOutlet UIPullToRefreshTableView *table;
 @property (nonatomic, retain) NSDate *lastUpdate;
-@property (retain) NSMutableArray* data;
+@property (nonatomic, retain) NSMutableArray* data;
 
+
+- (void) releaseOutlets;
 
 - (void) locationInitialized:(NSNotification *) notification;
 - (IBAction) toggleMenu: (id) sender;

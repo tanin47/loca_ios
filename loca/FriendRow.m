@@ -44,6 +44,17 @@
     return self;
 }
 
+- (void) dealloc
+{
+    self.cell = nil;
+    self.name = nil;
+    self.thumbnail = nil;
+    
+    self.friend = nil;
+    
+    [super dealloc];
+}
+
 
 - (void) setFriend: (Friend *) newFriend
 {

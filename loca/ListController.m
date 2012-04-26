@@ -52,19 +52,6 @@ static ListController *sharedInstance = nil;
 }
 
 
-
-- (void)dealloc {
-	//DLog(@"");
-	
-	self.table = nil;
-	self.lastUpdate = nil;
-	self.data = nil;
-	
-    [super dealloc];
-}
-
-
-
 #pragma mark - View lifecycle
 
 
@@ -78,8 +65,24 @@ static ListController *sharedInstance = nil;
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseOutlets];
+}
+
+
+- (void) releaseOutlets
+{
+    self.table = nil;
+}
+
+
+- (void) dealloc 
+{
+    [self releaseOutlets];
+    
+    self.lastUpdate = nil;
+    self.data = nil;
+    
+    [super dealloc];
 }
 
 

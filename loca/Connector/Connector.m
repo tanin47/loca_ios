@@ -34,4 +34,28 @@ static Connector *sharedInstance = nil;
     }
 }
 
+
+- (void) dealloc 
+{
+    [self releaseLoginCallbackBlocks];
+    [self releaseFacebookCallbackBlocks];
+    
+    [super dealloc];
+}
+
+
+
+- (void) releaseFacebookCallbackBlocks
+{
+    [facebookRequestDidLoad release]; 
+    [facebookRequestDidFail release];
+}
+
+- (void) releaseLoginCallbackBlocks
+{
+    [loginCallback release];
+    [loginFailCallback release];
+}
+
+
 @end

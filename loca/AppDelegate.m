@@ -101,6 +101,25 @@
     }
 }
 
+
+
+- (void)fbDidNotLogin:(BOOL)cancelled
+{
+    
+}
+
+- (void)fbDidExtendToken:(NSString*)accessToken
+               expiresAt:(NSDate*)expiresAt
+{
+    
+}
+
+- (void)fbSessionInvalidated
+{
+    
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*

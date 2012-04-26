@@ -16,6 +16,9 @@
 @property (nonatomic, retain) IBOutlet UILabel *restaurantName;
 @property (nonatomic, retain) IBOutlet UILabel *badgeNumber;
 
+
+- (void) releaseOutlets;
+
 - (IBAction) backClicked: (id) sender;
 - (void) updateUI;
 

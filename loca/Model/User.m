@@ -34,6 +34,15 @@ static NSMutableDictionary *hash = nil;
 @synthesize thumbnailUrl;
 @synthesize point;
 
+- (void) dealloc
+{
+    self.facebookId = nil;
+    self.name = nil;
+    self.thumbnailUrl = nil;
+    
+    [super dealloc];
+}
+
 
 - (BOOL) isGuest
 {
