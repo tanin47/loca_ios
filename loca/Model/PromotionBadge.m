@@ -65,7 +65,7 @@ static NSMutableDictionary *hash = nil;
 	self.identity = [json objectForKey:@"id"];
 	self.number = [json objectForKey:@"number"];
 	self.promotion = [Promotion getObjectWithId:[json objectForKey:@"promotion_id"]];
-    self.isUsed = [(NSNumber *)[json objectForKey:@"collected_count"] boolValue];
+    self.isUsed = [(NSNumber *)[json objectForKey:@"is_used"] boolValue];
     
     self.promotion.badge = self;
     

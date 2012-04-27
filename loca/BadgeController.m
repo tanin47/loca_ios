@@ -34,6 +34,7 @@ static BadgeController *sharedInstance = nil;
 @synthesize name;
 @synthesize restaurantName;
 @synthesize badgeNumber;
+@synthesize isUsed;
 
 
 - (void) setBadge:(PromotionBadge *) newBadge
@@ -115,6 +116,14 @@ static BadgeController *sharedInstance = nil;
     self.name.text = self.badge.promotion.name;
     self.restaurantName.text = self.badge.promotion.restaurant.name;
     self.badgeNumber.text = self.badge.number;
+    
+    DLog(@"%d", self.badge.isUsed);
+    
+    if (self.badge.isUsed) {
+        self.isUsed.text = @"ใช้ไปแล้ว";
+    } else {
+        self.isUsed.text = @"";
+    }
 }
 
 @end

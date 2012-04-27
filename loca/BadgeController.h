@@ -15,6 +15,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *name;
 @property (nonatomic, retain) IBOutlet UILabel *restaurantName;
 @property (nonatomic, retain) IBOutlet UILabel *badgeNumber;
+@property (nonatomic, retain) IBOutlet UILabel *isUsed;
 
 
 - (void) releaseOutlets;
